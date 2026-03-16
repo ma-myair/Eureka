@@ -427,7 +427,9 @@ open class FormViewController: UIViewController, FormViewControllerProtocol, For
     open var defaultScrollPosition = UITableView.ScrollPosition.none
 
     /// Accessory view that is responsible for the navigation between rows
-    private var navigationAccessoryView: (UIView & NavigationAccessory)!
+    private var navigationAccessoryView: (UIView & NavigationAccessory)! {
+        customNavigationAccessoryView ?? NavigationAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 44.0))
+    }
 
     /// Custom Accesory View to be used as a replacement
     open var customNavigationAccessoryView: (UIView & NavigationAccessory)? {
@@ -453,8 +455,8 @@ open class FormViewController: UIViewController, FormViewControllerProtocol, For
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        navigationAccessoryView = customNavigationAccessoryView ?? NavigationAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 44.0))
-        navigationAccessoryView.autoresizingMask = .flexibleWidth
+        //navigationAccessoryView = customNavigationAccessoryView ?? NavigationAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 44.0))
+        //navigationAccessoryView.autoresizingMask = .flexibleWidth
 
         if tableView == nil {
             tableView = UITableView(frame: view.bounds, style: tableViewStyle)
@@ -540,7 +542,7 @@ open class FormViewController: UIViewController, FormViewControllerProtocol, For
     open func inputAccessoryView(for row: BaseRow) -> UIView? {
         let options = navigationOptions ?? Form.defaultNavigationOptions
         guard options.contains(.Enabled) else { return nil }
-        guard row.baseCell.cellCanBecomeFirstResponder() else { return nil}
+        guard row.baseCell.cellCanBecomeFirstResponder() else { return nil }
         navigationAccessoryView.previousEnabled = nextRow(for: row, withDirection: .up) != nil
         navigationAccessoryView.doneClosure = { [weak self] in
             self?.navigationDone()

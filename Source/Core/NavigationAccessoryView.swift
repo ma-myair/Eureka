@@ -25,7 +25,7 @@
 import Foundation
 import UIKit
 
-public protocol NavigationAccessory {
+public protocol NavigationAccessory: AnyObject {
     var doneClosure: (() -> ())? { get set }
     var nextClosure: (() -> ())? { get set }
     var previousClosure: (() -> ())? { get set }
